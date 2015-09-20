@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+	
+	
+	<security:http pattern="/public/**" security="none"/>
+	<security:http pattern="/login*" security="none"/>
+	 
+	<security:http use-expressions="false">
+		<security:intercept-url pattern="/**" access="ROLE_USER"/>
+		<security:form-login 
+		
+		login-page="/login"
+		username-parameter="username"
+		password-parameter="password"
+		default-target-url="/employee/ajouter"
+		always-use-default-target="true"
+		authentication-failure-url="/login?error"
+		login-processing-url="/j_spring_security_check"
+		
+		/>
+		<security:logout 
+		logout-success-url="/login"
+		logout-url="/j_spring_security_logout"
+		/>
+		<security:csrf disabled="true"/>
+	</security:http>
+	 
+	
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="springDaoAuthentication"/>
+	</security:authentication-manager>
+	
+	
+	<bean id="springDaoAuthentication" class="com.bank.manager.configs.SpringSecurityDaoAuthentication">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="enableAuthorities" value="true"></property>
+		<property name="enableGroups" value="false"></property>
+		<!-- <property name="usersByUsernameQuery" value="select username,password,enabled from accounts where username = ?">  </property>-->
+		<!-- <property name="authoritiesByUsernameQuery" value="select username,authority from authorities where username = ?"></property> -->
+		
+	</bean>
+</beans>
