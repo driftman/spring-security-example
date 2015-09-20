@@ -60,7 +60,7 @@ public class SpringSecurityDaoAuthentication  extends JdbcDaoSupport implements 
 	 * @Autowired
 	 * private IBuisiness buisiness;
 	 *
-	 * public void setMetier(IBuisiness buisiness)
+	 * public void setBuisiness(IBuisiness buisiness)
 	 * {
 	 *	this.buisiness = buisiness;
 	 * }
